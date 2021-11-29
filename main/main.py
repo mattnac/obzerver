@@ -31,7 +31,7 @@ def main():
       is_https = True
       logging.debug("Starting job for {}".format(target))
       job = threading.Thread(target=run, args=(target, interval, is_https)).start()
-
+      target = None
 
 def run(target, interval, is_https):
   logging.debug("In run function.")
@@ -43,6 +43,8 @@ def run(target, interval, is_https):
   run_url = urlformat.urlformat(target, is_https)
   client = create_client(run_url, interval, is_https)
   job = client.daemonize()
+  
+  return(job)
 
 def create_client(run_url, interval, is_https):
   logging.debug("Creating client")

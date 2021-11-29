@@ -2,6 +2,7 @@ import requests
 import time
 import logging
 import sys
+import requests
 
 class Daemon():
   def __init__(self, target, interval, is_https):
@@ -17,8 +18,10 @@ class Daemon():
       logging.debug("Firing of request to {}".format(self.target))
       r = requests.get(self.target)
       if r.status_code >= 200 and r.status_code < 300:
+        requests.post('http://127.0.0.1:5000/stat', json={"name": self.target, "status": "up"})
         success += 1
       else:
+        requests.post('http://127.0.0.1:5000/stat', json={"name": self.target, "status": "down"})
         failure += 1
       logging.debug("Request fired, sleeping for interval")
       time.sleep(self.interval)
