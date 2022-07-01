@@ -18,11 +18,11 @@ class Daemon():
       logging.debug("Firing of request to {}".format(self.target))
       r = requests.get(self.target)
       if r.status_code >= 200 and r.status_code < 300:
-        requests.post('http://127.0.0.1:5000/stat', json={"name": self.target, "status": "up"})
         success += 1
+        requests.post('http://127.0.0.1:5000/stat', json={"target": self.target, "status": "up", "successes": success, "failures": failure})
       else:
-        requests.post('http://127.0.0.1:5000/stat', json={"name": self.target, "status": "down"})
         failure += 1
+        requests.post('http://127.0.0.1:5000/stat', json={"target": self.target, "status": "down", "successes": success, "failures": failure})
       logging.debug("Request fired, sleeping for interval")
       time.sleep(self.interval)
       #except:
