@@ -35,8 +35,7 @@ def main():
             logging.info(f"queue length is {len(curr_queue)}")
             if len(curr_queue) == 0:
               requests.put('http://127.0.0.1:5000/clear-queue')
-
-      time.sleep(5)
+        time.sleep(5)
 
 def run(target, interval, is_https):
     logging.debug("In run function.")
